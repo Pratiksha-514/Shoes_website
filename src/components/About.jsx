@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import loginBg from '../assets/login-bg-vibrant.png';
 import shoesBg from '../assets/shoes.jpg';
 
@@ -191,12 +192,18 @@ const About = () => {
                 Be the first to cop exclusive drops and limited editions. Don't just watch the culture, be part of it.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <button className="px-12 py-5 bg-white text-gray-900 font-black rounded-full hover:bg-gray-100 hover:scale-105 transition-all shadow-[0_0_25px_rgba(255,255,255,0.4)] text-lg">
+                <Link
+                  to="/product"
+                  className="px-12 py-5 bg-white text-gray-900 font-black rounded-full hover:bg-gray-100 hover:scale-105 transition-all shadow-[0_0_25px_rgba(255,255,255,0.4)] text-lg inline-block"
+                >
                   Explore Collection
-                </button>
-                <button className="px-12 py-5 bg-transparent border-2 border-white/30 text-white font-bold rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm text-lg">
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-12 py-5 bg-transparent border-2 border-white/30 text-white font-bold rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm text-lg inline-block"
+                >
                   Contact Support
-                </button>
+                </Link>
               </div>
             </div>
           </div>

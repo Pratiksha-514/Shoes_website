@@ -29,6 +29,7 @@ export async function createUser(name, email, uid) {
             email: email,
             name: name,
             createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
             cartProducts: []
         });
 
@@ -181,13 +182,19 @@ export async function fetchAllProducts() {
 
 export async function addProduct(product) {
     try {
-        await addDoc(collection(db, "product"), product);
+        const querySnapshot = await getDocs(collection(db, "product"));
+        const nextId = (querySnapshot.size + 1).toString();
+
+        await setDoc(doc(db, "product", nextId), {
+            ...product,
+            id: nextId,
+            createdAt: new Date().toISOString()
+        });
         return true;
     } catch (error) {
         console.error("Error adding product:", error);
         return false;
     }
-
 }
 
 export async function deleteProduct(id) {
@@ -219,14 +226,21 @@ export async function updateProduct(id, updatedData) {
 
 export async function saveContactedUser(name, email, contact, comment) {
     try {
-        const newContact = await addDoc(collection(db, "contactedUser"), {
+        console.log("Checking collection size for sequential ID...");
+        const querySnapshot = await getDocs(collection(db, "contactedUser"));
+        const nextId = (querySnapshot.size + 1).toString();
+
+        console.log("Saving contact as ID:", nextId);
+
+        await setDoc(doc(db, "contactedUser", nextId), {
             name,
             email,
             contact,
             comment,
             createdAt: new Date().toISOString()
         });
-        console.log("User contact saved:", newContact.id);
+
+        return nextId; // Return the ID for feedback
     } catch (error) {
         console.error("Error saving contact:", error.message);
         throw error;
@@ -240,9 +254,10 @@ export async function placeOrder(userId, shippingDetails, cartProducts, totalAmo
     try {
         if (!userId) throw new Error("User ID required");
 
-        // 1. Create the Order Document
-        // Note: addDoc needs to be imported if not already usable, but we imported it above for saveContactedUser
-        const orderRef = await addDoc(collection(db, "orders"), {
+        const querySnapshot = await getDocs(collection(db, "orders"));
+        const orderId = (querySnapshot.size + 1).toString();
+
+        await setDoc(doc(db, "orders", orderId), {
             userId,
             shippingDetails,
             items: cartProducts,
@@ -251,7 +266,7 @@ export async function placeOrder(userId, shippingDetails, cartProducts, totalAmo
             createdAt: new Date().toISOString()
         });
 
-        console.log("Order placed successfully, ID:", orderRef.id);
+        console.log("Order placed successfully, ID:", orderId);
 
         // 2. Clear the User's Cart
         const userRef = doc(db, "users", userId);

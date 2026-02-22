@@ -119,7 +119,9 @@ const Products = () => {
       category: newProduct.category || "Uncategorized",
       gender: newProduct.gender || "Men",
       description: newProduct.description || "",
-      name: newProduct.name || "Untitled"
+      name: newProduct.name || "Untitled",
+      createdAt: editId ? (productArray.find(p => p.id === editId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     let success = false;
@@ -174,6 +176,9 @@ const Products = () => {
       selectedCategory === "All" || product.category === selectedCategory;
 
     return genderMatch && categoryMatch;
+  }).sort((a, b) => {
+    // Sort by createdAt descending (newest first)
+    return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
   });
 
   // ✅ LOADING

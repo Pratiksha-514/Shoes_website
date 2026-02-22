@@ -4,12 +4,15 @@ import { saveContactedUser } from '../services/firebase.service';
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", contact: "", comments: "" });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    saveContactedUser(formData.name, formData.email, formData.contact, formData.comments);
-    alert("Your data saved successfully");
-    setFormData({ name: "", email: "", contact: "", comments: "" });
+    try {
+      const savedId = await saveContactedUser(formData.name, formData.email, formData.contact, formData.comments);
+      alert(`Your data saved successfully as Entry #${savedId}`);
+      setFormData({ name: "", email: "", contact: "", comments: "" });
+    } catch (error) {
+      alert("Error saving data. Please try again.");
+    }
   };
 
   return (

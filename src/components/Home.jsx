@@ -107,9 +107,9 @@ const Home = () => {
         },
         {
             id: 3,
-            title: "Kids' Formal Collection",
-            // Elegant formal kids shoes
-            image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            title: "Kids' Collection",
+            // Vibrant active kids shoes
+            image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
             link: "/product?category=Kids"
         }
     ];
